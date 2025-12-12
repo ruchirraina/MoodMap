@@ -8,7 +8,14 @@ A journaling app I'm building as an engineering student. It uses colors to track
 
 ## Current Status 🚧
 
-Early development phase. The Flutter project is set up with basic scaffolding. Working on Firebase integration next.
+**Version 0.2.0** - Firebase integration complete, basic theming implemented.
+
+### What's Working Now
+- ✅ Firebase initialized and connected
+- ✅ Material 3 theming (light & dark modes with custom surface colors)
+- ✅ Custom fonts (Poppins for UI, Pacifico for special titles)
+- ✅ Portrait-only orientation
+- ✅ Platform-specific splash effects (Android & iOS)
 
 ## What I'm Planning to Build ✅
 
@@ -35,6 +42,11 @@ Here's what I'm definitely going to implement:
 - Add a 10-second song preview to your daily entry
 - Search and pick songs from Spotify
 
+### Local Storage
+- Offline-first functionality
+- Data persists locally on device
+- Automatic sync with Firebase when online
+
 ## Maybe Later (Ambitious Stuff) 💭
 
 These are things I might add if I get time and motivation:
@@ -60,8 +72,6 @@ cd moodmap
 flutter pub get
 flutter run
 ```
-
-Note: Firebase isn't set up yet so not much will work right now.
 
 ## License
 

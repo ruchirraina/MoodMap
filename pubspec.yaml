@@ -1,7 +1,7 @@
 name: moodmap
-description: "A new Flutter project."
+description: "A Flutter mood journaling app with color-based emotion tracking. Write daily entries, associate moods with colors, and visualize your emotional journey through monthly gradients. Features Spotify integration, Firebase sync, and local storage."
 publish_to: 'none'
-version: 0.1.0
+version: 0.2.0
 
 environment:
   sdk: ^3.10.1
@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +18,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+    - family: Pacifico
+      fonts:
+        - asset: assets/fonts/Pacifico-Regular.ttf  
