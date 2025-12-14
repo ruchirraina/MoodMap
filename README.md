@@ -8,7 +8,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 
 ## Current Status 🚧
 
-**Version 0.2.1** - Firebase integration complete, basic theming implemented.
+**Version 0.2.2** - Full theme switching feature implemented and codebase organized.
 
 ### What's Working Now
 - ✅ Firebase initialized and connected
@@ -16,7 +16,8 @@ A journaling app I'm building as an engineering student. It uses colors to track
 - ✅ Custom fonts (Poppins for UI, Pacifico for special titles)
 - ✅ Portrait-only orientation
 - ✅ Platform-specific splash effects (Android & iOS)
-- ✅ Theme persistence backbone ready (not yet integrated)
+- ✅ Theme toggling (System, Light, Dark) is fully implemented.
+- ✅ Theme choice is saved and persists across app restarts.
 
 ## What I'm Planning to Build ✅
 

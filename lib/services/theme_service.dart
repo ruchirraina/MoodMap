@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ThemeRemember {
+class ThemeService {
   static SharedPreferences? _prefs; // SharedPreferences instance variable
 
   static const String _themeKey = 'theme_mode'; // Key for storing theme value
