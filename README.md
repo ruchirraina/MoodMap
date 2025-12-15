@@ -8,7 +8,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 
 ## Current Status 🚧
 
-**Version 0.2.3** - Added error snackbar extension and updated codebase.
+**Version 0.2.5** - Added theme extension and custom navigation functions, updated codebase.
 
 ### What's Working Now
 - ✅ Firebase initialized and connected
@@ -19,6 +19,8 @@ A journaling app I'm building as an engineering student. It uses colors to track
 - ✅ Theme toggling (System, Light, Dark) is fully implemented.
 - ✅ Theme choice is saved and persists across app restarts.
 - ✅ Error snackbar extension for displaying error messages
+- ✅ Theme extension for easy theme property access
+- ✅ Custom navigation functions with slide-up and fade transitions
 
 ## What I'm Planning to Build ✅
 
