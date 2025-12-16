@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:moodmap/theme_config.dart';
 import 'package:moodmap/services/theme_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:moodmap/intro.dart';
 
 // ValueNotifier to manage theme changes across the app
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
@@ -12,6 +14,9 @@ final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
 void main() async {
   // Ensure Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load Environment variables
+  await dotenv.load(fileName: '.env');
 
   // Lock the app orientation to portrait mode
   await SystemChrome.setPreferredOrientations([
@@ -74,6 +79,8 @@ class MainApp extends StatelessWidget {
               ThemeConfig.darkThemeConfig, // Use dark theme from ThemeConfig
 
           themeMode: currentThemeMode, // Set theme mode based on notifier
+
+          home: Intro(),
         );
       },
     );

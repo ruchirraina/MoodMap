@@ -8,7 +8,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 
 ## Current Status 🚧
 
-**Version 0.2.5** - Added theme extension and custom navigation functions, updated codebase.
+**Version 0.3.0** - Fixed startup crash by implementing environment variable loading, added intro screen placeholder.
 
 ### What's Working Now
 - ✅ Firebase initialized and connected
