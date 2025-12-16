@@ -43,6 +43,7 @@ key.properties
 **/*.jks
 
 # Android Build Artifacts
+**/android/build/
 **/android/app/debug
 **/android/app/profile
 **/android/app/release
