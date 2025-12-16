@@ -5,6 +5,9 @@ class ThemeService {
   static SharedPreferences? _prefs; // SharedPreferences instance variable
 
   static const String _themeKey = 'theme_mode'; // Key for storing theme value
+  // Key for storing if theme is set
+  static const String _isThemeSetKey = 'is_theme_set';
+  static bool _isThemeSet = false; // Storing if theme is set (default false)
 
   static Future<void> init() async {
     // Initialize SharedPreferences
@@ -15,6 +18,8 @@ class ThemeService {
   static Future<void> setTheme(ThemeMode mode) async {
     // Use .index property for simple integer storage
     await _prefs?.setInt(_themeKey, mode.index);
+    _isThemeSet = true;
+    await _prefs?.setBool(_isThemeSetKey, _isThemeSet);
   }
 
   // Retrieve theme mode, defaulting to system if not set
@@ -28,4 +33,7 @@ class ThemeService {
     }
     return ThemeMode.system;
   }
+
+  // Getter returning bool for if theme is set
+  static bool get isThemeSet => _isThemeSet;
 }
