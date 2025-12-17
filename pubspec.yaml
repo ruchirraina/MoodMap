@@ -1,7 +1,7 @@
 name: moodmap
 description: "A Flutter mood journaling app with color-based emotion tracking. Write daily entries, associate moods with colors, and visualize your emotional journey through monthly gradients. Features Spotify integration, Firebase sync, and local storage."
 publish_to: 'none'
-version: 0.3.0
+version: 0.3.1
 
 environment:
   sdk: ^3.10.1

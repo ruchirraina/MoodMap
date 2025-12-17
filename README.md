@@ -8,7 +8,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 
 ## Current Status 🚧
 
-**Version 0.3.0** - Fixed startup crash by implementing environment variable loading, added intro screen placeholder.
+**Version 0.3.1** - Implemented intro screen with animated title and subtitle transitions, updated codebase.
 
 ### What's Working Now
 - ✅ Firebase initialized and connected
@@ -21,6 +21,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 - ✅ Error snackbar extension for displaying error messages
 - ✅ Theme extension for easy theme property access
 - ✅ Custom navigation functions with slide-up and fade transitions
+- ✅ Intro screen with animated title and subtitle
 
 ## What I'm Planning to Build ✅
 
