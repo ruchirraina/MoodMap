@@ -4,6 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ThemeService {
   static SharedPreferences? _prefs; // SharedPreferences instance variable
 
+  // ValueNotifier to manage theme changes across the app
+  static final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(
+    ThemeMode.system,
+  );
+
   static const String _themeKey = 'theme_mode'; // Key for storing theme value
   // Key for storing if theme is set
   static const String _isThemeSetKey = 'is_theme_set';
@@ -12,6 +17,10 @@ class ThemeService {
   static Future<void> init() async {
     // Initialize SharedPreferences
     _prefs ??= await SharedPreferences.getInstance();
+    // Set the initial theme based on stored preference
+    ThemeService.themeNotifier.value = ThemeService.getTheme();
+    // Load the "isSet" state so it remembers if the user manually changed it
+    _isThemeSet = _prefs?.getBool(_isThemeSetKey) ?? false;
   }
 
   // Save theme mode using its index (0: system, 1: light, 2: dark)
@@ -36,4 +45,25 @@ class ThemeService {
 
   // Getter returning bool for if theme is set
   static bool get isThemeSet => _isThemeSet;
+
+  // Method to toggle theme from anywhere in the app
+  static void toggleTheme() {
+    final ThemeMode currentThemeMode = themeNotifier.value;
+    ThemeMode newThemeMode;
+
+    switch (currentThemeMode) {
+      case .system:
+        newThemeMode = .light;
+        break;
+      case .light:
+        newThemeMode = .dark;
+        break;
+      case .dark:
+        newThemeMode = .system;
+        break;
+    }
+
+    themeNotifier.value = newThemeMode; // Update the notifier
+    ThemeService.setTheme(newThemeMode); // Save the new theme
+  }
 }

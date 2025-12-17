@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moodmap/reusables/theme_extension.dart';
+import 'package:moodmap/theme_selector.dart';
 
 // Intro Screen - Title(App Name) and Subtitle(Tagline)
 // Subtitle shall fade as title moves to "top" and decreases in size
 // while making way for theme selection
-
 class Intro extends StatefulWidget {
   const Intro({super.key});
 
@@ -22,14 +22,16 @@ class _IntroState extends State<Intro> {
   bool _subtitlePresent = true;
   double _subtitleOpacity = 1;
 
+  double _themeSelectorOpacity = 0;
+
   @override
   void initState() {
     super.initState();
     // start animation
-    _startAnimation();
+    _startAnimationAndNavigate();
   }
 
-  void _startAnimation() async {
+  void _startAnimationAndNavigate() async {
     // sensible pause for titles
     await Future.delayed(const Duration(milliseconds: 1500));
 
@@ -38,7 +40,7 @@ class _IntroState extends State<Intro> {
       _subtitleOpacity = 0; // fade out subtitle
     });
 
-    //
+    // wait subtitle to fade(300ms) + extra minimal buffer(25ms)
     await Future.delayed(const Duration(milliseconds: 325));
 
     if (!mounted) return;
@@ -47,14 +49,26 @@ class _IntroState extends State<Intro> {
       // also trigger title font reducing
       _subtitlePresent = false;
       // move to "top"
-      _titleAlignment = Alignment.topCenter;
+      _titleAlignment = .topCenter;
+    });
+
+    // title moves in 250ms and themeselctor loads after wating 175ms
+    await Future.delayed(const Duration(milliseconds: 175));
+
+    if (!mounted) return;
+    setState(() {
+      _themeSelectorOpacity = 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // title does not cross the status bar or touches it as it reaches "top"
-    double topPaddingTitle = MediaQuery.of(context).padding.top + 8;
+    /* 
+    title does not cross the status bar or touches it as it reaches "top".
+    sits perfectly had we used a AppBar with just title having the same
+    text and style and toolBarHeight of 64
+    */
+    double topPaddingTitle = MediaQuery.of(context).padding.top + 10;
 
     // intial title style
     final TextStyle initialTitleStyle = context.textTheme.displayLarge!
@@ -67,6 +81,12 @@ class _IntroState extends State<Intro> {
     return Scaffold(
       body: Stack(
         children: [
+          AnimatedOpacity(
+            opacity: _themeSelectorOpacity,
+            duration: const Duration(milliseconds: 300),
+            child: themeSelect(context),
+          ),
+
           AnimatedAlign(
             alignment: _titleAlignment,
             curve: Curves.easeInOutCubic,
@@ -92,7 +112,7 @@ class _IntroState extends State<Intro> {
               child: Text(
                 'Every mood, every feeling, mapped',
                 style: context.textTheme.labelLarge,
-                textAlign: TextAlign.center,
+                textAlign: .center,
               ),
             ),
           ),

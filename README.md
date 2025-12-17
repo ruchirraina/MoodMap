@@ -8,7 +8,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 
 ## Current Status 🚧
 
-**Version 0.3.1** - Implemented intro screen with animated title and subtitle transitions, updated codebase.
+**Version 0.3.2** - Added theme selector to intro screen, refactored theme management, updated codebase.
 
 ### What's Working Now
 - ✅ Firebase initialized and connected
@@ -22,6 +22,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 - ✅ Theme extension for easy theme property access
 - ✅ Custom navigation functions with slide-up and fade transitions
 - ✅ Intro screen with animated title and subtitle
+- ✅ Theme selector in intro screen
 
 ## What I'm Planning to Build ✅
 
