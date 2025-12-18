@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moodmap/services/theme_service.dart';
 import 'package:moodmap/reusables/theme_extension.dart';
+import 'package:moodmap/reusables/custom_navigation.dart';
+import 'package:moodmap/auth/auth.dart';
 
-({Icon themeIcon, String themeTitle}) getThemeModeInfo(ThemeMode mode) {
+({Icon themeIcon, String themeTitle}) _getThemeModeInfo(ThemeMode mode) {
   switch (mode) {
     case .light:
       return (
@@ -52,18 +55,30 @@ Widget themeSelect(BuildContext context) {
             onPressed: () {
               ThemeService.toggleTheme();
             },
-            child: getThemeModeInfo(ThemeService.themeNotifier.value).themeIcon,
+            child: _getThemeModeInfo(
+              ThemeService.themeNotifier.value,
+            ).themeIcon,
           ),
 
           const SizedBox(height: 12),
 
-          Text(getThemeModeInfo(ThemeService.themeNotifier.value).themeTitle),
+          Text(_getThemeModeInfo(ThemeService.themeNotifier.value).themeTitle),
 
           const SizedBox(height: 28),
 
-          FilledButton(onPressed: () {}, child: Text("Continue")),
+          FilledButton(
+            onPressed: () => _continueToLogin(context),
+            child: Text("Continue"),
+          ),
         ],
       ),
     ),
   );
+}
+
+void _continueToLogin(BuildContext context) {
+  HapticFeedback.selectionClick();
+  ThemeService.setTheme(ThemeService.themeNotifier.value);
+
+  navigatieSlideUp(context, Auth(), replace: true);
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:moodmap/reusables/custom_navigation.dart';
 import 'package:moodmap/reusables/theme_extension.dart';
+import 'package:moodmap/services/theme_service.dart';
 import 'package:moodmap/theme_selector.dart';
+import 'package:moodmap/auth/auth.dart';
 
 // Intro Screen - Title(App Name) and Subtitle(Tagline)
 // Subtitle shall fade as title moves to "top" and decreases in size
@@ -35,30 +38,34 @@ class _IntroState extends State<Intro> {
     // sensible pause for titles
     await Future.delayed(const Duration(milliseconds: 1500));
 
-    if (!mounted) return;
-    setState(() {
-      _subtitleOpacity = 0; // fade out subtitle
-    });
+    if (!ThemeService.isThemeSet) {
+      if (!mounted) return;
+      setState(() {
+        _subtitleOpacity = 0; // fade out subtitle
+      });
 
-    // wait subtitle to fade(300ms) + extra minimal buffer(25ms)
-    await Future.delayed(const Duration(milliseconds: 325));
+      // wait subtitle to fade(300ms) + extra minimal buffer(25ms)
+      await Future.delayed(const Duration(milliseconds: 325));
 
-    if (!mounted) return;
-    setState(() {
-      // mark false after subtitle fades out
-      // also trigger title font reducing
-      _subtitlePresent = false;
-      // move to "top"
-      _titleAlignment = .topCenter;
-    });
+      if (!mounted) return;
+      setState(() {
+        // mark false after subtitle fades out
+        // also trigger title font reducing
+        _subtitlePresent = false;
+        // move to "top"
+        _titleAlignment = .topCenter;
+      });
 
-    // title moves in 250ms and themeselctor loads after wating 175ms
-    await Future.delayed(const Duration(milliseconds: 175));
-
-    if (!mounted) return;
-    setState(() {
-      _themeSelectorOpacity = 1;
-    });
+      // title moves in 250ms and themeselctor loads after wating 175ms
+      await Future.delayed(const Duration(milliseconds: 175));
+      if (!mounted) return;
+      setState(() {
+        _themeSelectorOpacity = 1;
+      });
+    } else {
+      if (!mounted) return;
+      navigateFade(context, Auth(), durationMs: 300);
+    }
   }
 
   @override

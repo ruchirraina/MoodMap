@@ -64,6 +64,5 @@ class ThemeService {
     }
 
     themeNotifier.value = newThemeMode; // Update the notifier
-    ThemeService.setTheme(newThemeMode); // Save the new theme
   }
 }
