@@ -5,7 +5,7 @@ void navigatieSlideUp(
   BuildContext context,
   Widget screen, {
   bool replace = false, // Whether to replace the current screen
-  int durationMs = 400, // Duration of the transition in milliseconds
+  int durationMs = 500, // Duration of the transition in milliseconds
 }) {
   // Define the page route with custom slide-up transition
   final route = PageRouteBuilder(
