@@ -41,7 +41,7 @@ void navigateFade(
   BuildContext context,
   Widget screen, {
   bool replace = true, // Whether to replace the current screen
-  int durationMs = 125, // Duration of the transition in milliseconds
+  int durationMs = 200, // Duration of the transition in milliseconds
 }) {
   // Define the page route with custom fade transition
   final route = PageRouteBuilder(

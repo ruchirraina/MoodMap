@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:moodmap/reusables/custom_navigation.dart';
 import 'package:moodmap/reusables/theme_extension.dart';
 
 class Auth extends StatefulWidget {
-  const Auth({super.key});
+  final bool atLogin;
+  const Auth({this.atLogin = true, super.key});
 
   @override
   State<Auth> createState() => _AuthState();
@@ -79,7 +81,9 @@ class _AuthState extends State<Auth> {
                       mainAxisSize: .min,
                       children: [
                         Text(
-                          "Welcome to MoodMap!",
+                          widget.atLogin
+                              ? 'Welcome Back!'
+                              : 'Welcome to MoodMap!',
                           style: context.textTheme.titleLarge!.copyWith(
                             fontWeight: .bold,
                           ),
@@ -130,24 +134,49 @@ class _AuthState extends State<Auth> {
                           ),
                         ),
 
-                        Align(
-                          alignment: .centerRight,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Forgot Password?',
-                              style: context.textTheme.labelMedium!.copyWith(
-                                color: context.colorScheme.tertiary,
-                              ),
-                            ),
-                          ),
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          child: widget.atLogin
+                              ? Align(
+                                  alignment: .centerRight,
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Forgot Password?',
+                                      style: context.textTheme.labelMedium!
+                                          .copyWith(
+                                            color: context.colorScheme.tertiary,
+                                          ),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(height: 28),
                         ),
 
                         SizedBox(
                           width: double.infinity,
                           child: FilledButton(
                             onPressed: () {},
-                            child: const Text('Log In'),
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: widget.atLogin
+                                  ? Text(
+                                      'Log In',
+                                      style: context.textTheme.bodyLarge!
+                                          .copyWith(
+                                            color:
+                                                context.colorScheme.onPrimary,
+                                          ),
+                                    )
+                                  : Text(
+                                      'Sign Up',
+                                      style: context.textTheme.bodyLarge!
+                                          .copyWith(
+                                            color:
+                                                context.colorScheme.onPrimary,
+                                          ),
+                                    ),
+                            ),
                           ),
                         ),
 
@@ -164,8 +193,15 @@ class _AuthState extends State<Auth> {
                               children: [
                                 const SizedBox(height: 16),
                                 TextButton(
-                                  onPressed: () {},
-                                  child: const Text('New User? Register'),
+                                  onPressed: _switchAuthMode,
+                                  style: TextButton.styleFrom(
+                                    splashFactory: NoSplash.splashFactory,
+                                  ),
+                                  child: Text(
+                                    widget.atLogin
+                                        ? 'New User? Sign Up'
+                                        : 'Already Signed Up? Log In',
+                                  ),
                                 ),
                               ],
                             ),
@@ -222,5 +258,10 @@ class _AuthState extends State<Auth> {
         ),
       ),
     );
+  }
+
+  void _switchAuthMode() {
+    if (!mounted) return;
+    navigateFade(context, Auth(atLogin: !widget.atLogin));
   }
 }

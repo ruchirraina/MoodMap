@@ -13,36 +13,6 @@ class ThemeSelector extends StatefulWidget {
 }
 
 class _ThemeSelectorState extends State<ThemeSelector> {
-  // records: a way to return multiple named values from one function
-  // useful here to group the icon and the text label together
-  ({Icon themeIcon, String themeTitle}) _getThemeModeInfo(ThemeMode mode) {
-    switch (mode) {
-      case .light:
-        return (
-          themeIcon: Icon(
-            Icons.light_mode,
-            color: Colors.amber.shade400,
-            size: 110,
-          ),
-          themeTitle: 'Light Mode',
-        );
-      case .dark:
-        return (
-          themeIcon: Icon(
-            Icons.dark_mode,
-            color: Colors.yellow.shade100,
-            size: 110,
-          ),
-          themeTitle: 'Dark Mode',
-        );
-      default:
-        return (
-          themeIcon: const Icon(Icons.brightness_auto, size: 110),
-          themeTitle: 'Follow System',
-        );
-    }
-  }
-
   void _continueToLogin() {
     // gives physical vibration feedback when the button is pressed
     HapticFeedback.selectionClick();
@@ -115,5 +85,35 @@ class _ThemeSelectorState extends State<ThemeSelector> {
         ),
       ),
     );
+  }
+}
+
+// records: a way to return multiple named values from one function
+// useful here to group the icon and the text label together
+({Icon themeIcon, String themeTitle}) _getThemeModeInfo(ThemeMode mode) {
+  switch (mode) {
+    case .light:
+      return (
+        themeIcon: Icon(
+          Icons.light_mode,
+          color: Colors.amber.shade400,
+          size: 110,
+        ),
+        themeTitle: 'Light Mode',
+      );
+    case .dark:
+      return (
+        themeIcon: Icon(
+          Icons.dark_mode,
+          color: Colors.yellow.shade100,
+          size: 110,
+        ),
+        themeTitle: 'Dark Mode',
+      );
+    default:
+      return (
+        themeIcon: const Icon(Icons.brightness_auto, size: 110),
+        themeTitle: 'Follow System',
+      );
   }
 }

@@ -8,7 +8,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 
 ## Current Status 🚧
 
-**Version 0.4.0** - Added authentication UI with email/password fields, password visibility toggle, Google Sign-In button, and enhanced intro animations.
+**Version 0.4.1** - Expanded Authentication UI to support both Login and Sign-Up modes with smooth transitions and focus-aware security features.
 
 ### What's Working Now
 - ✅ Firebase initialized and connected
@@ -21,11 +21,11 @@ A journaling app I'm building as an engineering student. It uses colors to track
 - ✅ Error snackbar extension for displaying error messages
 - ✅ Theme extension for easy theme property access
 - ✅ Custom navigation functions with slide-up and fade transitions
-- ✅ Intro screen with animated title and subtitle
-- ✅ Theme selector in intro screen
+- ✅ Intro screen with animated title and subtitle transitions
 - ✅ Theme selection integrated with app navigation
-- ✅ Authentication UI with email/password fields and password obfuscation toggle
-- ✅ Google Sign-In button (UI only, functionality pending)
+- ✅ Toggle between Login and Sign-Up with smooth animations.
+- ✅ Visibility toggle only appears when focused; auto-obscures on unfocus for extra security.
+- ✅ Form "tucks" upward when typing to keep fields visible.
 
 ## What I'm Planning to Build ✅
 
