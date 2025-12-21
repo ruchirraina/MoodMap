@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:moodmap/reusables/custom_navigation.dart';
 import 'package:moodmap/reusables/theme_extension.dart';
 import 'package:moodmap/services/theme_service.dart';
 import 'package:moodmap/theme_selector.dart';
 import 'package:moodmap/auth/auth.dart';
 
-// Intro Screen - Title(App Name) and Subtitle(Tagline)
+// Start Screen - Title(App Name) and Subtitle(Tagline)
 // Subtitle shall fade as title moves to "top" and decreases in size
-// while making way for theme selection
-class Intro extends StatefulWidget {
-  const Intro({super.key});
+// while making way for theme selection or Auth
+class Start extends StatefulWidget {
+  const Start({super.key});
 
   @override
-  State<Intro> createState() => _IntroState();
+  State<Start> createState() => _StartState();
 }
 
-class _IntroState extends State<Intro> {
+class _StartState extends State<Start> {
   // initial alignment of title
   // not center but vertical -0.12
   // same in value but opposite of subtitle vertical
@@ -24,6 +23,17 @@ class _IntroState extends State<Intro> {
 
   bool _subtitlePresent = true;
   double _subtitleOpacity = 1;
+
+  // controls visibility of theme selector
+  double _themeSelectorOpacity = 0;
+
+  // controls visibility of auth content
+  double _authContentOpacity = 0;
+
+  // offsets for slide up animation
+  Offset _themeSelectorOffset = Offset.zero; // default theme selector centered
+  // default auth content starts off-screen
+  Offset _authContentOffset = const Offset(0, 1);
 
   @override
   void initState() {
@@ -56,16 +66,33 @@ class _IntroState extends State<Intro> {
 
     // check if it's the user's first time (theme not set)
     if (!ThemeService.isThemeSet) {
-      // wait for title movement (400ms) then move to theme selection
-      await Future.delayed(const Duration(milliseconds: 400));
-      if (!mounted) return;
-      navigateFade(context, const ThemeSelector(), durationMs: 300);
+      // wait for title movement (500ms) but load theme selectior after 250ms
+      await Future.delayed(const Duration(milliseconds: 250));
+      setState(() {
+        _themeSelectorOpacity = 1;
+        _authContentOpacity = 1;
+      });
     } else {
-      // already set? go straight to login
-      await Future.delayed(const Duration(milliseconds: 400));
-      if (!mounted) return;
-      navigateFade(context, const Auth(), durationMs: 300);
+      setState(() {
+        _authContentOffset = Offset.zero;
+      });
+      // wait for title movement (500ms) but load auth conten after 250ms
+      await Future.delayed(const Duration(milliseconds: 250));
+      setState(() {
+        _authContentOpacity = 1;
+      });
     }
+  }
+
+  // triggered when "Continue" is pressed in ThemeSelector
+  void _slideUpThemeToAuth() {
+    setState(() {
+      // fade out and slide theme selector up
+      _themeSelectorOpacity = 0;
+      _themeSelectorOffset = const Offset(0, -1.5);
+      // Slide auth content up and in
+      _authContentOffset = Offset.zero;
+    });
   }
 
   @override
@@ -93,13 +120,13 @@ class _IntroState extends State<Intro> {
           AnimatedAlign(
             alignment: _titleAlignment,
             curve: Curves.easeOutCirc,
-            duration: const Duration(milliseconds: 400),
+            duration: const Duration(milliseconds: 500),
             child: Padding(
               padding: .only(top: topPaddingTitle),
               // AnimatedDefaultTextStyle: animates changes in size/color/font
               child: AnimatedDefaultTextStyle(
                 curve: Curves.easeOutCirc,
-                duration: const Duration(milliseconds: 400),
+                duration: const Duration(milliseconds: 500),
                 style: _subtitlePresent ? initialTitleStyle : finallTitleStyle,
                 child: const Text('MoodMap'),
               ),
@@ -117,6 +144,46 @@ class _IntroState extends State<Intro> {
                 'Every mood, every feeling, mapped',
                 style: context.textTheme.labelLarge,
                 textAlign: .center,
+              ),
+            ),
+          ),
+
+          AnimatedSlide(
+            offset: _themeSelectorOffset,
+            curve: Curves.easeInOutCubic,
+            duration: const Duration(milliseconds: 500),
+            child: AnimatedOpacity(
+              opacity: _themeSelectorOpacity,
+              duration: !ThemeService.isThemeSet
+                  // fade in duration
+                  ? const Duration(milliseconds: 300)
+                  // fade out duration as it slides up
+                  : const Duration(milliseconds: 200),
+              child: IgnorePointer(
+                // ignore touches if opacity is 0 OR if it has slid up
+                ignoring:
+                    _themeSelectorOpacity != 1 || _themeSelectorOffset.dy != 0,
+                child: themeSelector(context, onContinue: _slideUpThemeToAuth),
+              ),
+            ),
+          ),
+
+          AnimatedSlide(
+            offset: _authContentOffset,
+            curve: Curves.easeInOutCubic,
+            duration: !ThemeService.isThemeSet
+                // slide up duration as theme selector slides up
+                ? const Duration(milliseconds: 500)
+                // no slide duration if theme selector not shown
+                : const Duration(milliseconds: 0),
+            child: AnimatedOpacity(
+              opacity: _authContentOpacity,
+              duration: const Duration(milliseconds: 300),
+              child: IgnorePointer(
+                // Ignore tocuhes if opacity is 0 OR if it hasn't slid in yet
+                ignoring:
+                    _authContentOpacity != 1 || _authContentOffset.dy != 0,
+                child: const Auth(),
               ),
             ),
           ),

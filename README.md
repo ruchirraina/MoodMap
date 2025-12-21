@@ -8,7 +8,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 
 ## Current Status 🚧
 
-**Version 0.4.1** - Expanded Authentication UI to support both Login and Sign-Up modes with smooth transitions and focus-aware security features.
+**Version 0.4.5** - Improved animations and restrutured file organization.
 
 ### What's Working Now
 - ✅ Firebase initialized and connected

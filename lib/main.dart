@@ -5,7 +5,7 @@ import 'package:moodmap/configs/theme_config.dart';
 import 'package:moodmap/services/theme_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:moodmap/intro.dart';
+import 'package:moodmap/start.dart';
 
 // async main function to ensure proper initialization
 void main() async {
@@ -54,7 +54,7 @@ class MainApp extends StatelessWidget {
 
           themeMode: currentThemeMode, // Set theme mode based on notifier
 
-          home: Intro(),
+          home: Start(),
         );
       },
     );
