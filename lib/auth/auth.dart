@@ -58,9 +58,9 @@ class _AuthState extends State<Auth> {
             AnimatedAlign(
               alignment: mainTileAlignment,
               curve: Curves.easeOutCirc,
-              duration: const Duration(milliseconds: 250),
+              duration: const Duration(milliseconds: 300),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SingleChildScrollView(
                   // clamp physics prevents scrolling unless absolutely necessary
                   physics: const ClampingScrollPhysics(),
@@ -69,7 +69,7 @@ class _AuthState extends State<Auth> {
                     children: [
                       // Dynamic Welcome Text
                       AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 100),
                         child: Text(
                           _atLogin ? 'Welcome Back!' : 'Welcome to MoodMap!',
                           key: ValueKey<bool>(
@@ -88,6 +88,16 @@ class _AuthState extends State<Auth> {
                         style: context.textTheme.bodyMedium,
                         decoration: InputDecoration(
                           label: const Text('Email'),
+                          labelStyle: context.textTheme.bodyMedium!.copyWith(
+                            color: context.colorScheme.onSurface.withValues(
+                              alpha: 0.7,
+                            ),
+                          ),
+                          floatingLabelStyle: context.textTheme.bodyMedium!
+                              .copyWith(color: context.colorScheme.primary),
+                          errorStyle: context.textTheme.labelSmall!.copyWith(
+                            color: context.colorScheme.error,
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -105,6 +115,16 @@ class _AuthState extends State<Auth> {
                         style: context.textTheme.bodyMedium,
                         decoration: InputDecoration(
                           label: const Text('Password'),
+                          labelStyle: context.textTheme.bodyMedium!.copyWith(
+                            color: context.colorScheme.onSurface.withValues(
+                              alpha: 0.7,
+                            ),
+                          ),
+                          floatingLabelStyle: context.textTheme.bodyMedium!
+                              .copyWith(color: context.colorScheme.primary),
+                          errorStyle: context.textTheme.labelSmall!.copyWith(
+                            color: context.colorScheme.error,
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -150,7 +170,7 @@ class _AuthState extends State<Auth> {
                         child: FilledButton(
                           onPressed: () {},
                           child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 200),
+                            duration: const Duration(milliseconds: 100),
                             child: Text(
                               _atLogin ? 'Log In' : 'Sign Up',
                               key: ValueKey<bool>(_atLogin),
@@ -177,7 +197,7 @@ class _AuthState extends State<Auth> {
                                   splashFactory: NoSplash.splashFactory,
                                 ),
                                 child: AnimatedSwitcher(
-                                  duration: const Duration(milliseconds: 200),
+                                  duration: const Duration(milliseconds: 100),
                                   child: Text(
                                     _atLogin
                                         ? 'New User? Sign Up'
@@ -207,9 +227,9 @@ class _AuthState extends State<Auth> {
                 opacity: isKeyboardVisible ? 0 : 1,
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    left: 24,
-                    right: 24,
-                    bottom: 24,
+                    left: 20,
+                    right: 20,
+                    bottom: 20,
                   ),
                   child: Column(
                     children: [
