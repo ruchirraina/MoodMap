@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moodmap/reusables/theme_extension.dart';
+import 'package:moodmap/auth/email_sing_in.dart';
+import 'package:moodmap/auth/email_sing_up.dart';
 
 class Auth extends StatefulWidget {
   const Auth({super.key});
@@ -11,6 +13,8 @@ class Auth extends StatefulWidget {
 class _AuthState extends State<Auth> {
   // Internal state to toggle between Login and Signup
   bool _atLogin = true;
+
+  final _formKey = GlobalKey<FormState>();
 
   late final FocusNode _passwordFocusNode;
   bool _obscurePassword = true;
@@ -64,153 +68,186 @@ class _AuthState extends State<Auth> {
                 child: SingleChildScrollView(
                   // clamp physics prevents scrolling unless absolutely necessary
                   physics: const ClampingScrollPhysics(),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Dynamic Welcome Text
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 100),
-                        child: Text(
-                          _atLogin ? 'Welcome Back!' : 'Welcome to MoodMap!',
-                          key: ValueKey<bool>(
-                            _atLogin,
-                          ), // ensures animation triggers
-                          style: context.textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        style: context.textTheme.bodyMedium,
-                        decoration: InputDecoration(
-                          label: const Text('Email'),
-                          labelStyle: context.textTheme.bodyMedium!.copyWith(
-                            color: context.colorScheme.onSurface.withValues(
-                              alpha: 0.7,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Dynamic Welcome Text
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          transitionBuilder: (child, animation) =>
+                              FadeTransition(opacity: animation, child: child),
+                          child: Text(
+                            _atLogin ? 'Welcome Back!' : 'Welcome to MoodMap!',
+                            key: ValueKey<bool>(
+                              _atLogin,
+                            ), // ensures animation triggers
+                            style: context.textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          floatingLabelStyle: context.textTheme.bodyMedium!
-                              .copyWith(color: context.colorScheme.primary),
-                          errorStyle: context.textTheme.labelSmall!.copyWith(
-                            color: context.colorScheme.error,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          prefixIcon: const Icon(Icons.mail),
                         ),
-                      ),
 
-                      const SizedBox(height: 12),
+                        const SizedBox(height: 16),
 
-                      TextFormField(
-                        focusNode: _passwordFocusNode,
-                        obscureText: _passwordFocusNode.hasFocus
-                            ? _obscurePassword
-                            : true,
-                        style: context.textTheme.bodyMedium,
-                        decoration: InputDecoration(
-                          label: const Text('Password'),
-                          labelStyle: context.textTheme.bodyMedium!.copyWith(
-                            color: context.colorScheme.onSurface.withValues(
-                              alpha: 0.7,
+                        TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          style: context.textTheme.bodyMedium,
+                          decoration: InputDecoration(
+                            label: const Text('Email'),
+                            labelStyle: context.textTheme.bodyMedium!.copyWith(
+                              color: context.colorScheme.onSurface.withValues(
+                                alpha: 0.7,
+                              ),
                             ),
+                            floatingLabelStyle: context.textTheme.bodyMedium!
+                                .copyWith(color: context.colorScheme.primary),
+                            errorStyle: context.textTheme.labelSmall!.copyWith(
+                              color: context.colorScheme.error,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            prefixIcon: const Icon(Icons.mail),
                           ),
-                          floatingLabelStyle: context.textTheme.bodyMedium!
-                              .copyWith(color: context.colorScheme.primary),
-                          errorStyle: context.textTheme.labelSmall!.copyWith(
-                            color: context.colorScheme.error,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email field cannot be empty';
+                            }
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        TextFormField(
+                          focusNode: _passwordFocusNode,
+                          obscureText: _passwordFocusNode.hasFocus
+                              ? _obscurePassword
+                              : true,
+                          style: context.textTheme.bodyMedium,
+                          decoration: InputDecoration(
+                            label: const Text('Password'),
+                            labelStyle: context.textTheme.bodyMedium!.copyWith(
+                              color: context.colorScheme.onSurface.withValues(
+                                alpha: 0.7,
+                              ),
+                            ),
+                            floatingLabelStyle: context.textTheme.bodyMedium!
+                                .copyWith(color: context.colorScheme.primary),
+                            errorStyle: context.textTheme.labelSmall!.copyWith(
+                              color: context.colorScheme.error,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            prefixIcon: const Icon(Icons.lock),
+                            suffixIcon: _passwordFocusNode.hasFocus
+                                ? IconButton(
+                                    onPressed: () => setState(() {
+                                      _obscurePassword = !_obscurePassword;
+                                    }),
+                                    icon: Icon(
+                                      _obscurePassword
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                    ),
+                                  )
+                                : null,
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          prefixIcon: const Icon(Icons.lock),
-                          suffixIcon: _passwordFocusNode.hasFocus
-                              ? IconButton(
-                                  onPressed: () => setState(() {
-                                    _obscurePassword = !_obscurePassword;
-                                  }),
-                                  icon: Icon(
-                                    _obscurePassword
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
+                          validator: (value) {
+                            if (_atLogin && (value == null || value.isEmpty)) {
+                              return 'Password field cannot be empty';
+                            }
+                            if (!_atLogin &&
+                                (value == null || value.length < 6)) {
+                              return 'Password must be of at least 6 charachters.';
+                            }
+                            return null;
+                          },
+                        ),
+
+                        // Forgot Password (only for Login)
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          child: _atLogin
+                              ? Align(
+                                  alignment: Alignment.centerRight,
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Forgot Password?',
+                                      style: context.textTheme.labelMedium!
+                                          .copyWith(
+                                            color: context.colorScheme.tertiary,
+                                          ),
+                                    ),
                                   ),
                                 )
-                              : null,
+                              : const SizedBox(height: 28),
                         ),
-                      ),
 
-                      // Forgot Password (only for Login)
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 200),
-                        child: _atLogin
-                            ? Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    'Forgot Password?',
-                                    style: context.textTheme.labelMedium!
-                                        .copyWith(
-                                          color: context.colorScheme.tertiary,
-                                        ),
+                        // Action Button (Log In / Sign Up)
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton(
+                            onPressed: _atLogin
+                                ? () => trySignIn(_formKey)
+                                : () => trySignUp(_formKey),
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              transitionBuilder: (child, animation) =>
+                                  FadeTransition(
+                                    opacity: animation,
+                                    child: child,
                                   ),
+                              child: Text(
+                                _atLogin ? 'Log In' : 'Sign Up',
+                                key: ValueKey<bool>(_atLogin),
+                                style: context.textTheme.bodyLarge!.copyWith(
+                                  color: context.colorScheme.onPrimary,
                                 ),
-                              )
-                            : const SizedBox(height: 28),
-                      ),
-
-                      // Action Button (Log In / Sign Up)
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: () {},
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 100),
-                            child: Text(
-                              _atLogin ? 'Log In' : 'Sign Up',
-                              key: ValueKey<bool>(_atLogin),
-                              style: context.textTheme.bodyLarge!.copyWith(
-                                color: context.colorScheme.onPrimary,
                               ),
                             ),
                           ),
                         ),
-                      ),
 
-                      // Switch Mode Link
-                      AnimatedOpacity(
-                        duration: const Duration(milliseconds: 200),
-                        opacity: isKeyboardVisible ? 0 : 1,
-                        child: IgnorePointer(
-                          ignoring: isKeyboardVisible,
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 16),
-                              TextButton(
-                                onPressed: _switchAuthMode,
-                                style: TextButton.styleFrom(
-                                  splashFactory: NoSplash.splashFactory,
-                                ),
-                                child: AnimatedSwitcher(
-                                  duration: const Duration(milliseconds: 100),
-                                  child: Text(
-                                    _atLogin
-                                        ? 'New User? Sign Up'
-                                        : 'Already Signed Up? Log In',
-                                    key: ValueKey<bool>(_atLogin),
+                        // Switch Mode Link
+                        AnimatedOpacity(
+                          duration: const Duration(milliseconds: 200),
+                          opacity: isKeyboardVisible ? 0 : 1,
+                          child: IgnorePointer(
+                            ignoring: isKeyboardVisible,
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 16),
+                                TextButton(
+                                  onPressed: _switchAuthMode,
+                                  style: TextButton.styleFrom(
+                                    splashFactory: NoSplash.splashFactory,
+                                  ),
+                                  child: AnimatedSwitcher(
+                                    duration: const Duration(milliseconds: 200),
+                                    transitionBuilder: (child, animation) =>
+                                        FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        ),
+                                    child: Text(
+                                      _atLogin
+                                          ? 'New User? Sign Up'
+                                          : 'Already Signed Up? Log In',
+                                      key: ValueKey<bool>(_atLogin),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -8,7 +8,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 
 ## Current Status 🚧
 
-**Version 0.4.5** - Improved animations and restrutured file organization.
+**Version 0.4.6** - Added form validation and improved animation speeds.
 
 ### What's Working Now
 - ✅ Firebase initialized and connected
@@ -26,6 +26,7 @@ A journaling app I'm building as an engineering student. It uses colors to track
 - ✅ Toggle between Login and Sign-Up with smooth animations.
 - ✅ Visibility toggle only appears when focused; auto-obscures on unfocus for extra security.
 - ✅ Form "tucks" upward when typing to keep fields visible.
+- ✅ Form validation for email and password fields in authentication.
 
 ## What I'm Planning to Build ✅
 
